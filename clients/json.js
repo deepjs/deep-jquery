@@ -52,11 +52,12 @@ define(["require", "deepjs/deep"],function (require, deep)
 	var client = {
 		dataType:"json",
 		responseParser : function(data, msg, jqXHR){
-			try{
-				if(typeof data === 'string')
-					data = JSON.parse(data);
-			}
-			catch(e) { return e; }
+			//console.log("parsing : ", data, msg);
+			// try{
+			// 	if(typeof data === 'string')
+			// 		data = JSON.parse(data);
+			// }
+			// catch(e) { return e; }
 			return data;
 		},
 		parseBody : function(data){
