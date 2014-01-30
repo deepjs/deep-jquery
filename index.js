@@ -1,4 +1,6 @@
-"use strict";
+/**
+ * @author Gilles Coomans <gilles.coomans@gmail.com>
+ */
 if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
@@ -7,14 +9,12 @@ define(["require", "deepjs/deep"], function(require, deep) {
 	deep.jquery = {
 		appendTo: function(selector, force) {
 			return function(rendered, nodes) {
-				//console.log("deep.ui.appendTo : ", rendered, nodes, selector)
 				if (!force && nodes && nodes.parents('html').length > 0) {
 					var newNodes = $(rendered);
 					$(nodes).replaceWith(newNodes);
 					return newNodes;
 				}
 				nodes = $(rendered).appendTo(selector);
-				//console.log("appendto : appended : ", $(selector));
 				return nodes;
 			};
 		},
@@ -31,7 +31,10 @@ define(["require", "deepjs/deep"], function(require, deep) {
 		replace: function(selector) {
 			return function(rendered, nodes) {
 				var newNodes = $(rendered);
-				$(selector).replaceWith(newNodes);
+				if(nodes && nodes.parents('html').length > 0)
+					$(nodes).replaceWith(newNodes);
+				else
+					$(selector).replaceWith(newNodes);
 				return newNodes;
 			};
 		},
@@ -43,7 +46,8 @@ define(["require", "deepjs/deep"], function(require, deep) {
 		},
 		isInDOM : function($node)
 		{
-			return jQuery.contains(document.documentElement, $node[0]);
+			return $node.parents('html').length > 0;
+			//return jQuery.contains(document.documentElement, $node[0]);
 		}
 	};
 	deep.jquery.addDomProtocols = function(){

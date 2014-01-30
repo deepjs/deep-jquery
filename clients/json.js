@@ -62,7 +62,7 @@ define(["require", "deepjs/deep"],function (require, deep)
 		},
 		parseBody : function(data){
 			try{
-				if(typeof data !== 'string')
+				//if(typeof data !== 'string')
 					data = JSON.stringify(data);
 			}
 			catch(e)
