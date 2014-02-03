@@ -102,7 +102,8 @@ define(["require", "deepjs/deep", "deepjs/lib/clients/client-store"],function (r
 				url:uri,
 				method:"GET"
 			})
-			.done(function(data, msg, jqXHR){
+			.done(function(data, msg, jqXHR)
+			{
 				var res = {
 					contentRange:jqXHR.getResponseHeader("content-range"),
 					data:self.responseParser(data, msg, jqXHR)

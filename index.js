@@ -6,6 +6,9 @@ if (typeof define !== 'function') {
 }
 define(["require", "deepjs/deep"], function(require, deep) {
 
+
+	// todo : add deep.login(...)  et deep.logout()
+
 	deep.jquery = {
 		appendTo: function(selector, force) {
 			return function(rendered, nodes) {
