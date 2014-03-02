@@ -6,17 +6,16 @@ if (typeof define !== 'function') {
 }
 define(["require", "deepjs/deep"], function(require, deep) {
 
-
 	// todo : add deep.login(...)  et deep.logout()
-
-
 	deep.jquery = {
+		outerHTML:function(selector){
+			if(deep.context.$.html)
+				return deep.context.$.html(selector);
+			else
+				return deep.context.$('<div>').append(deep.context.$(selector).clone()).html();
+		},
 		init:function(jq){
-			jq.fn.outerHTML = function(s) {
-				return s
-					? this.before(s).remove()
-					: jq("<p>").append(this.eq(0).clone()).html();
-			};
+
 		},
 		appendTo: function(selector, force) {
 			return function(rendered, nodes) {
@@ -25,7 +24,10 @@ define(["require", "deepjs/deep"], function(require, deep) {
 					deep.context.$(nodes).replaceWith(newNodes);
 					return newNodes;
 				}
-				nodes = deep.context.$(rendered).appendTo(selector);
+				//if(typeof jQuery !== 'undefined' && jQuery.fn.appendTo)
+					nodes = deep.context.$(selector).append(rendered).children().last();
+				//else
+
 				return nodes;
 			};
 		},
@@ -36,7 +38,8 @@ define(["require", "deepjs/deep"], function(require, deep) {
 					deep.context.$(nodes).replaceWith(newNodes);
 					return newNodes;
 				}
-				return deep.context.$(rendered).prependTo(selector);
+				return deep.context.$(selector).prepend(rendered).children().first();
+				//return deep.context.$(rendered).prependTo(selector);
 			};
 		},
 		replace: function(selector) {
@@ -51,8 +54,9 @@ define(["require", "deepjs/deep"], function(require, deep) {
 		},
 		htmlOf: function(selector) {
 			return function(rendered, nodes) {
-				deep.context.$(selector).empty();
-				return deep.context.$(rendered).appendTo(selector);
+				//deep.context.$(selector).empty();
+
+				return deep.context.$(selector).html(rendered).children();
 			};
 		},
 		isInDOM : function(node)
