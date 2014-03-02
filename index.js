@@ -9,48 +9,56 @@ define(["require", "deepjs/deep"], function(require, deep) {
 
 	// todo : add deep.login(...)  et deep.logout()
 
+
 	deep.jquery = {
+		init:function(jq){
+			jq.fn.outerHTML = function(s) {
+				return s
+					? this.before(s).remove()
+					: jq("<p>").append(this.eq(0).clone()).html();
+			};
+		},
 		appendTo: function(selector, force) {
 			return function(rendered, nodes) {
 				if (!force && nodes && nodes.parents('html').length > 0) {
-					var newNodes = $(rendered);
-					$(nodes).replaceWith(newNodes);
+					var newNodes = deep.context.$(rendered);
+					deep.context.$(nodes).replaceWith(newNodes);
 					return newNodes;
 				}
-				nodes = $(rendered).appendTo(selector);
+				nodes = deep.context.$(rendered).appendTo(selector);
 				return nodes;
 			};
 		},
 		prependTo: function(selector, force) {
 			return function(rendered, nodes) {
 				if (!force && nodes && nodes.parents('html').length > 0) {
-					var newNodes = $(rendered);
-					$(nodes).replaceWith(newNodes);
+					var newNodes = deep.context.$(rendered);
+					deep.context.$(nodes).replaceWith(newNodes);
 					return newNodes;
 				}
-				return $(rendered).prependTo(selector);
+				return deep.context.$(rendered).prependTo(selector);
 			};
 		},
 		replace: function(selector) {
 			return function(rendered, nodes) {
-				var newNodes = $(rendered);
+				var newNodes = deep.context.$(rendered);
 				if(nodes && nodes.parents('html').length > 0)
-					$(nodes).replaceWith(newNodes);
+					deep.context.$(nodes).replaceWith(newNodes);
 				else
-					$(selector).replaceWith(newNodes);
+					deep.context.$(selector).replaceWith(newNodes);
 				return newNodes;
 			};
 		},
 		htmlOf: function(selector) {
 			return function(rendered, nodes) {
-				$(selector).empty();
-				return $(rendered).appendTo(selector);
+				deep.context.$(selector).empty();
+				return deep.context.$(rendered).appendTo(selector);
 			};
 		},
-		isInDOM : function($node)
+		isInDOM : function(node)
 		{
-			return $node.parents('html').length > 0;
-			//return jQuery.contains(document.documentElement, $node[0]);
+			return node.parents('html').length > 0;
+			//return jQuery.contains(document.documentElement, node[0]);
 		}
 	};
 	deep.jquery.addDomProtocols = function(){
