@@ -5,8 +5,6 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 define(["require", "deepjs/deep"], function(require, deep) {
-
-	// todo : add deep.login(...)  et deep.logout()
 	deep.jquery = {
 		outerHTML:function(selector){
 			if(deep.context.$.html)
@@ -24,11 +22,7 @@ define(["require", "deepjs/deep"], function(require, deep) {
 					deep.context.$(nodes).replaceWith(newNodes);
 					return newNodes;
 				}
-				//if(typeof jQuery !== 'undefined' && jQuery.fn.appendTo)
-					nodes = deep.context.$(selector).append(rendered).children().last();
-				//else
-
-				return nodes;
+				return deep.context.$(selector).append(rendered).children().last();
 			};
 		},
 		prependTo: function(selector, force) {
@@ -39,7 +33,6 @@ define(["require", "deepjs/deep"], function(require, deep) {
 					return newNodes;
 				}
 				return deep.context.$(selector).prepend(rendered).children().first();
-				//return deep.context.$(rendered).prependTo(selector);
 			};
 		},
 		replace: function(selector) {
@@ -54,8 +47,6 @@ define(["require", "deepjs/deep"], function(require, deep) {
 		},
 		htmlOf: function(selector) {
 			return function(rendered, nodes) {
-				//deep.context.$(selector).empty();
-
 				return deep.context.$(selector).html(rendered).children();
 			};
 		},
