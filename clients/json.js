@@ -134,15 +134,10 @@ define(["require", "deepjs/deep", "deepjs/lib/stores/http"],function (require, d
 	};
 	deep.client.jquery = {};
 	deep.client.jquery.JSON = deep.compose.Classes(client, deep.client.ClientStore);
-	deep.client.jquery.JSON.create = function(protocol, baseURI, schema, options){
-		var client = new deep.client.jquery.JSON(protocol, baseURI || "", schema, options);
+	deep.client.jquery.JSON.create = deep.client.jquery.JSON.createDefault = function(protocol, baseURI, schema, options){
+		var client = new deep.client.jquery.JSON(protocol || "json", baseURI, schema, options);
 		if(protocol)
             deep.utils.up(deep.protocol.SheetProtocoles, client);
-        return client;
-	};
-	deep.client.jquery.JSON.createDefault = function(){
-		var client = new deep.client.jquery.JSON("json");
-        deep.utils.up(deep.protocol.SheetProtocoles, client);
         return client;
 	};
 	return deep.client.jquery.JSON;

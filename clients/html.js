@@ -24,22 +24,17 @@ define(["require","deepjs/deep", "./json"],function (require, deep, jsonStore)
 	});
 
 	//__________________________________________________
-	deep.extensions.push({
+	/*deep.extensions.push({
 		extensions:[
 			/(\.(html|htm|xhtm|xhtml)(\?.*)?)$/gi
 		],
 		client:deep.client.jquery.HTML
-	});
-	deep.client.jquery.HTML.create = function(protocol, baseURI, schema, options){
-		var client = new deep.client.jquery.HTML(protocol, baseURI, schema, options);
+	});*/
+	deep.client.jquery.HTML.create = deep.client.jquery.HTML.createDefault = function(protocol, baseURI, schema, options){
+		var client = new deep.client.jquery.HTML(protocol || "html", baseURI, schema, options);
         if(protocol)
 			deep.utils.up(deep.protocol.SheetProtocoles, client);
         return client;
-	};
-	deep.client.jquery.HTML.createDefault = function(){
-		var client = new deep.client.jquery.HTML("html");
-        deep.utils.up(deep.protocol.SheetProtocoles, client);
-		return client;
 	};
 	return deep.client.jquery.HTML;
 

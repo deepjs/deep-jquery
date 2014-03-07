@@ -30,15 +30,10 @@ define(["require","deepjs/deep", "./json"],function (require, deep, jsonStore)
         ],
         client:deep.client.jquery.XML
     });
-    deep.client.jquery.XML.create = function(protocol, baseURI, schema, options){
-        var client = new deep.client.jquery.XML(protocol, baseURI, schema, options);
+    deep.client.jquery.XML.create = deep.client.jquery.XML.createDefault =  function(protocol, baseURI, schema, options){
+        var client = new deep.client.jquery.XML(protocol || "xml", baseURI, schema, options);
         if(protocol)
             deep.utils.up(deep.protocol.SheetProtocoles, client);
-        return client;
-    };
-    deep.client.jquery.XML.createDefault = function(){
-        var client = new deep.client.jquery.XML("xml");
-        deep.utils.up(deep.protocol.SheetProtocoles, client);
         return client;
     };
     return deep.client.jquery.XML;
