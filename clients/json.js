@@ -6,7 +6,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
     
-define(["require", "deepjs/deep", "deepjs/lib/stores/http/client"],function (require, deep)
+define(["require", "deepjs/deep", "deepjs/lib/stores/http"],function (require, deep)
 {
 	/**
 	 * TODO : patch/put with query
