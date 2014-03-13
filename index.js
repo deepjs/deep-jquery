@@ -9,71 +9,73 @@ define(["require", "deepjs/deep"], function(require, deep) {
     deep.jquery = deep.jquery || {};
 
     deep.jquery.init = function(jq) {};
-    deep.jquery.outerHTML = function(selector) {
-        if (deep.context.$.html)
-            return deep.context.$.html(selector);
-        else
-            return deep.context.$('<div>').append(deep.context.$(selector).clone()).html();
-    };
-    deep.jquery.isInDOM = function(node) {
-        return node.parents('html').length > 0;
-        //return jQuery.contains(document.documentElement, node[0]);
-    };
 
-    var DOM = {};
-    DOM.appendTo = function(selector, force) {
-        return function(rendered, nodes) {
-            if (!force && nodes && nodes.parents('html').length > 0) {
-                var newNodes = deep.context.$(rendered);
-                deep.context.$(nodes).replaceWith(newNodes);
-                return newNodes;
-            }
-            return deep.context.$(selector).append(rendered).children().last();
-        };
-    };
-    DOM.prependTo = function(selector, force) {
-        return function(rendered, nodes) {
-            if (!force && nodes && nodes.parents('html').length > 0) {
-                var newNodes = deep.context.$(rendered);
-                deep.context.$(nodes).replaceWith(newNodes);
-                return newNodes;
-            }
-            return deep.context.$(selector).prepend(rendered).children().first();
-        };
-    };
-    DOM.replace = function(selector) {
-        return function(rendered, nodes) {
-            var newNodes = deep.context.$(rendered);
-            if (nodes && nodes.parents('html').length > 0)
-                deep.context.$(nodes).replaceWith(newNodes);
+
+    deep.jquery.DOM = {
+        outerHTML : function(selector) {
+            if (deep.context.$.html)
+                return deep.context.$.html(selector);
             else
-                deep.context.$(selector).replaceWith(newNodes);
-            return newNodes;
-        };
-    };
-    DOM.htmlOf = function(selector) {
-        return function(rendered, nodes) {
-            return deep.context.$(selector).html(rendered).children();
-        };
-    };
-    deep.jquery.DOM = {};
-    deep.jquery.DOM.create = function(name) {
-        var protoc = {
+                return deep.context.$('<div>').append(deep.context.$(selector).clone()).html();
+        },
+        isInDOM : function(node) {
+            return node.parents('html').length > 0;
+            //return jQuery.contains(document.documentElement, node[0]);
+        },
+        protocol:{
             appendTo: function(selector, options) {
-                return DOM.appendTo(selector);
+                return deep.jquery.DOM.appendTo(selector);
             },
             prependTo: function(selector, options) {
-                return DOM.prependTo(selector);
+                return deep.jquery.DOM.prependTo(selector);
             },
             htmlOf: function(selector, options) {
-                return DOM.htmlOf(selector);
+                return deep.jquery.DOM.htmlOf(selector);
             },
             replace: function(selector, options) {
-                return DOM.replace(selector);
+                return deep.jquery.DOM.replace(selector);
             }
-        };
+        },
+        appendTo : function(selector, force) {
+            return function(rendered, nodes) {
+                if (!force && nodes && nodes.parents('html').length > 0) {
+                    var newNodes = deep.context.$(rendered);
+                    deep.context.$(nodes).replaceWith(newNodes);
+                    return newNodes;
+                }
+                return deep.context.$(selector).append(rendered).children().last();
+            };
+        },
+        prependTo : function(selector, force) {
+            return function(rendered, nodes) {
+                if (!force && nodes && nodes.parents('html').length > 0) {
+                    var newNodes = deep.context.$(rendered);
+                    deep.context.$(nodes).replaceWith(newNodes);
+                    return newNodes;
+                }
+                return deep.context.$(selector).prepend(rendered).children().first();
+            };
+        },
+        replace : function(selector) {
+            return function(rendered, nodes) {
+                var newNodes = deep.context.$(rendered);
+                if (nodes && nodes.parents('html').length > 0)
+                    deep.context.$(nodes).replaceWith(newNodes);
+                else
+                    deep.context.$(selector).replaceWith(newNodes);
+                return newNodes;
+            };
+        },
+        htmlOf : function(selector) {
+            return function(rendered, nodes) {
+                return deep.context.$(selector).html(rendered).children();
+            };
+        }
+    };
+    deep.jquery.DOM.create = function(name) {
+        //console.log("jquery.DOM.create : ", name);
         if (name)
-            deep.protocols[name] = protoc;
+            deep.protocol(name, deep.jquery.DOM.protocol);
     };
     return deep.jquery;
 });
