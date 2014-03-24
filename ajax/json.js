@@ -107,6 +107,7 @@ define(["require", "deepjs/deep", "deepjs/lib/stores/http"], function(require, d
             })
                 .done(function(data, msg, jqXHR) {
                     var res = {
+                    	status:jqXHR.status,
                         contentRange: jqXHR.getResponseHeader("content-range"),
                         data: self.responseParser(data, msg, jqXHR)
                     };
@@ -115,6 +116,7 @@ define(["require", "deepjs/deep", "deepjs/lib/stores/http"], function(require, d
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status < 400) {
                         var res = {
+                        	status:jqXHR.status,
                             contentRange: jqXHR.getResponseHeader("content-range"),
                             data: self.responseParser(jqXHR.responseText, textStatus, jqXHR)
                         };
