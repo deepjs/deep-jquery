@@ -8,74 +8,78 @@ define(["require", "deepjs/deep"], function(require, deep) {
 
     deep.jquery = deep.jquery || {};
 
-    deep.jquery.init = function(jq) {};
+    deep.jquery.set = function(jq) {
+        deep.context.$ = jq;
+    };
 
+    deep.$ = function(selector){
+        if(!selector)
+            return deep.context.$;
+        return deep.context.$(selector);
+    };
 
     deep.jquery.DOM = {
         outerHTML : function(selector) {
-            if (deep.context.$.html)
-                return deep.context.$.html(selector);
+            var  $ = deep.context.$;
+            if ($.html)
+                return $.html(selector);
             else
-                return deep.context.$('<div>').append(deep.context.$(selector).clone()).html();
+                return $('<div>').append($(selector).clone()).html();
         },
         isInDOM : function(node) {
             return node.parents('html').length > 0;
             //return jQuery.contains(document.documentElement, node[0]);
         },
-        protocol:{
-            appendTo: function(selector, options) {
-                return deep.jquery.DOM.appendTo(selector);
-            },
-            prependTo: function(selector, options) {
-                return deep.jquery.DOM.prependTo(selector);
-            },
-            htmlOf: function(selector, options) {
-                return deep.jquery.DOM.htmlOf(selector);
-            },
-            replace: function(selector, options) {
-                return deep.jquery.DOM.replace(selector);
-            }
-        },
         appendTo : function(selector, force) {
             return function(rendered, nodes) {
+                var  $ = deep.context.$;
                 if (!force && nodes && nodes.parents('html').length > 0) {
-                    var newNodes = deep.context.$(rendered);
-                    deep.context.$(nodes).replaceWith(newNodes);
+                    var newNodes = $(rendered);
+                    $(nodes).replaceWith(newNodes);
                     return newNodes;
                 }
-                return deep.context.$(selector).append(rendered).children().last();
+                return $(selector).append(rendered).children().last();
             };
         },
         prependTo : function(selector, force) {
             return function(rendered, nodes) {
+                var  $ = deep.context.$;
                 if (!force && nodes && nodes.parents('html').length > 0) {
-                    var newNodes = deep.context.$(rendered);
-                    deep.context.$(nodes).replaceWith(newNodes);
+                    var newNodes = $(rendered);
+                    $(nodes).replaceWith(newNodes);
                     return newNodes;
                 }
-                return deep.context.$(selector).prepend(rendered).children().first();
+                return $(selector).prepend(rendered).children().first();
             };
         },
         replace : function(selector) {
             return function(rendered, nodes) {
-                var newNodes = deep.context.$(rendered);
+                var  $ = deep.context.$;
+                var newNodes = $(rendered);
                 if (nodes && nodes.parents('html').length > 0)
-                    deep.context.$(nodes).replaceWith(newNodes);
+                    $(nodes).replaceWith(newNodes);
                 else
-                    deep.context.$(selector).replaceWith(newNodes);
+                    $(selector).replaceWith(newNodes);
                 return newNodes;
             };
         },
         htmlOf : function(selector) {
             return function(rendered, nodes) {
-                return deep.context.$(selector).html(rendered).children();
+                var  $ = deep.context.$;
+                return $(selector).html(rendered).children();
             };
         }
     };
     deep.jquery.DOM.create = function(name) {
         //console.log("jquery.DOM.create : ", name);
+        var protoc =  {
+            appendTo:deep.jquery.DOM.appendTo,
+            prependTo: deep.jquery.DOM.prependTo,
+            htmlOf: deep.jquery.DOM.htmlOf,
+            replace: deep.jquery.DOM.replace
+        };
         if (name)
-            deep.protocol(name, deep.jquery.DOM.protocol);
+            deep.protocol(name, protoc);
     };
     return deep.jquery;
 });
