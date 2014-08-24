@@ -1,0 +1,26 @@
+{
+  "name": "deep-jquery",
+  "main": "index.js",
+  "version": "0.3.0",
+  "homepage": "https://github.com/deepjs/deep-jquery",
+  "authors": [
+    "Gilles Coomans <gilles.coomans@gmail.com>"
+  ],
+  "description": "deepjs/jquery related stuffs : clients, protocols, dom...",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "jquery",
+    "deepjs"
+  ],
+  "license": "LGPL 3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
