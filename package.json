@@ -1,31 +1,33 @@
 {
-  "name": "deep-jquery",
-  "description":"deepjs/jquery related stuffs : clients, protocols, dom...",
-  "author":{
-    "name": "Gilles Coomans",
-    "email": "gilles.coomans@gmail.com"
-  }, 
-  "version": "0.3.0",
-  "contributors": [{
-      "name": "Philippe Delabye",
-      "email": "phil@chemicalrules.net"
-  }],
+ "name": "deep-jquery",
+ "description": "deepjs/jquery related stuffs : clients, protocols, dom...",
+ "author": {
+  "name": "Gilles Coomans",
+  "email": "gilles.coomans@gmail.com"
+ },
+ "version": "0.3.1",
+ "contributors": [
+  {
+   "name": "Philippe Delabye",
+   "email": "phil@chemicalrules.net"
+  }
+ ],
  "keywords": [
-    "jquery",
-    "deepjs"
-  ],
-  "licenses": [
-    {
-         "type": "LGPLv3.0",
-         "url": "http://www.gnu.org/licenses/lgpl-3.0.txt"
-     }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/deepjs/deep-jquery.git"
-  },
-  "dependencies": {
-    "deepjs": ">=0.10.11"
-  },
-  "main":"./index"
+  "jquery",
+  "deepjs"
+ ],
+ "licenses": [
+  {
+   "type": "LGPLv3.0",
+   "url": "http://www.gnu.org/licenses/lgpl-3.0.txt"
+  }
+ ],
+ "repository": {
+  "type": "git",
+  "url": "https://github.com/deepjs/deep-jquery.git"
+ },
+ "dependencies": {
+  "deepjs": ">=0.10.11"
+ },
+ "main": "./index"
 }
