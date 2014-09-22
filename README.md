@@ -36,7 +36,7 @@ If you want to use deep-jquery without autobahnjs server side, you should provid
 
 When using deep.$("...") ___after___ setting current jquery reference (or in autobahnjs html render engine), you should not worried about in which context do you apply your selection. Either it's browser side and you manipulate main browser window. Either it's server side and you manipulate you current request's "window".
 
-In that simple way, you obtain clear and isomorphic code, that could be runned safely without any change browser side or server side.
+Following this, you obtain clear and isomorphic code, that could be runned safely without any change browser side or server side.
 
 ```javascript
 var deep = require("deepjs/deep");
@@ -70,11 +70,11 @@ deep.$($); // here we set $ reference from the global one loaded in page
 
 var myDomHandler = deep.jquery.DOM.appendTo("#mySelector");
 
-myDomHandler("my rendered output"); // will append "my rendered output" to "#mySelector"
+var domElement = myDomHandler("my rendered output"); // will append "my rendered output" to "#mySelector" and return added dom element.
 
 ```
 
-You will certainly never use it as this. In place, you will more using it through protocols in conjonction with deep-views.
+You will certainly never use it as this. In place, you will using it through protocols in conjonction with deep-views.
 
 
 ```javascript
@@ -83,7 +83,7 @@ require("deep-views/index");
 require("deep-jquery/index"); // isomorphic manager
 require("deep-jquery/lib/dom")(); // load dom protocols
 
-deep.$($); // here we set $ reference from the global one loaded in page
+deep.$($); // we set $ reference from the global one, loaded in page.
 
 var view = deep.View({
 	how:function(){
